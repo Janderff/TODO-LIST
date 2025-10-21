@@ -1,4 +1,3 @@
-import { LogOut } from 'lucide-react'
 import { Cards } from './card'
 import { quantitys } from '../pages/dashboard'
 import { useQuery } from '@tanstack/react-query'
@@ -17,7 +16,7 @@ export default function Header() {
     queryFn: () => quantitys('finished'),
   })
   return (
-    <header className='bg-sky-700 w-full h-auto pb-8 flex flex-col justify-center   items-center'>
+    <header className='bg-sky-900 w-full h-auto pb-8 flex flex-col justify-center   items-center'>
       <div className='max-w-7xl w-full flex justify-between items-center px-4 '>
         <span>
           <img
@@ -26,10 +25,6 @@ export default function Header() {
             alt='logo da TaskTide'
           />
         </span>
-        <button className='border rounded-md p-2 flex bg-sky-800 text-white hover:bg-sky-700 transition-colors items-center gap-2'>
-          <LogOut />
-          Logout
-        </button>
       </div>
       <div className='max-w-7xl w-full flex justify-between items-center px-4 '>
         <Cards title='Total de Tarefas' quantity={total ?? 0} />

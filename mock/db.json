@@ -1,22 +1,16 @@
 {
   "tasks": [
     {
-      "id": "127a",
-      "title": "console",
+      "id": "5417",
+      "title": "Estudar node na plataforma da codi",
       "status": "active",
-      "createdAt": "2025-10-21T18:00:09.414Z"
+      "createdAt": "2025-10-21T19:29:44.366Z"
     },
     {
-      "id": "4cef",
-      "title": "Tarefa 1",
-      "status": "active",
-      "createdAt": "2025-10-21T18:46:27.046Z"
-    },
-    {
-      "title": "Tarefa 2",
+      "id": "628e",
+      "title": "Estudar express",
       "status": "finished",
-      "createdAt": "2025-10-21T18:47:48.261Z",
-      "id": "e89b"
+      "createdAt": "2025-10-21T19:29:58.591Z"
     }
   ]
 }

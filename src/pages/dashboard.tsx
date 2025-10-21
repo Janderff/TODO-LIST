@@ -85,7 +85,10 @@ export function Dashboard() {
       setTask('')
     },
   })
-
+  const [searchTask, setSearchTask] = useState('')
+  const filteredTasks = tasks?.filter((task) =>
+    task.title.toLowerCase().includes(searchTask.toLowerCase())
+  )
   return (
     <div className='flex items-center justify-center'>
       <div className=' h-auto p-4 w-full max-w-7xl'>
@@ -120,19 +123,17 @@ export function Dashboard() {
           </div>
         </div>
         <div className='flex gap-2 mt-4 mb-4'>
-          <button className='rounded-md p-2 bg-zinc-200 hover:bg-sky-600 text-zinc-600 hover:text-zinc-100'>
-            Todas as tarefas
-          </button>
-          <button className='rounded-md p-2 bg-zinc-200 hover:bg-sky-600 text-zinc-600 hover:text-zinc-100'>
-            Tarefas Ativas
-          </button>
-          <button className='rounded-md p-2 bg-zinc-200 hover:bg-sky-600 text-zinc-600 hover:text-zinc-100'>
-            Todas Concluidas
-          </button>
+          <input
+            type='text'
+            value={searchTask}
+            onChange={(e) => setSearchTask(e.target.value)}
+            placeholder='Digite a tarefa procurada'
+            className='border-2 h-auto rounded-md w-fit p-2 border-zinc-200 placeholder:text-zinc-400 hover:border-sky-700 hover:boder-3 outline-none focus:border-sky-700 '
+          />
         </div>
         <div>
-          {tasks &&
-            tasks?.map((task) => {
+          {filteredTasks &&
+            filteredTasks?.map((task) => {
               return (
                 <Tasks
                   key={task.id}

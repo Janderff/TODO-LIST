@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import { Circle, SquarePen, Trash2 } from 'lucide-react'
 //import { editTask } from '../pages/dashboard'
@@ -12,6 +12,7 @@ export interface TasksProps {
   editTask: (id: string, title: string, status: string) => void
 }
 export function Tasks({ title, status, id, refetch, editTask }: TasksProps) {
+  const queryClient = useQueryClient()
   async function handleDeleteTask(id: string) {
     await axios.delete(`http://localhost:3000/tasks/${id}`)
   }
@@ -21,6 +22,9 @@ export function Tasks({ title, status, id, refetch, editTask }: TasksProps) {
     mutationFn: handleDeleteTask,
     onSuccess: () => {
       refetch()
+      queryClient.invalidateQueries({ queryKey: ['quantity-total'] })
+      queryClient.invalidateQueries({ queryKey: ['quantity-active'] })
+      queryClient.invalidateQueries({ queryKey: ['quantity-finished'] })
     },
   })
 
