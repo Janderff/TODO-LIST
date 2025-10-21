@@ -1,19 +1,20 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
 import { Circle, SquarePen, Trash2 } from 'lucide-react'
+//import { editTask } from '../pages/dashboard'
+
 export interface TasksProps {
   id: string
   title: string
-  status: 'active' | 'finished'
+  status: string
   createdAt: Date
+  refetch: () => void
+  editTask: (id: string, title: string, status: string) => void
 }
-export function Tasks({ title, status = 'active', id }: TasksProps) {
+export function Tasks({ title, status, id, refetch, editTask }: TasksProps) {
   async function handleDeleteTask(id: string) {
     await axios.delete(`http://localhost:3000/tasks/${id}`)
   }
-  const { refetch } = useQuery({
-    queryKey: ['tasks'],
-  })
 
   const { mutate } = useMutation({
     mutationKey: ['delete-task'],
@@ -47,7 +48,12 @@ export function Tasks({ title, status = 'active', id }: TasksProps) {
         </span>
       </span>
       <div className='flex gap-3'>
-        <button className='text-amber-500'>
+        <button
+          className='text-amber-500'
+          onClick={() => {
+            editTask(id, title, status)
+          }}
+        >
           <SquarePen />
         </button>
         <button className='text-red-500' onClick={() => mutate(id)}>

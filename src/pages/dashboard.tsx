@@ -2,20 +2,52 @@ import { Plus } from 'lucide-react'
 import { Tasks, type TasksProps } from '../components/tasks'
 import { useState } from 'react'
 import axios from 'axios'
-import { useMutation, useQuery } from '@tanstack/react-query'
-export function Dashboard() {
-  const [task, setTask] = useState('')
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
+export async function quantitys(status: string) {
+  const { data } = await axios.get<TasksProps[]>(
+    `http://localhost:3000/tasks?status=${status}`
+  )
+  let countActive
+  let countFineshed
+  let count
+  if (status === 'active') {
+    return (countActive = data.filter(
+      (task) => task.status === 'active'
+    ).length)
+  } else if (status === 'finished') {
+    return (countFineshed = data.filter(
+      (task) => task.status === 'finished'
+    ).length)
+  } else {
+    return (count = data.length)
+  }
+}
+
+export function Dashboard() {
+  const queryClient = useQueryClient()
+  const [task, setTask] = useState('')
+  const [statusTask, setStatusTask] = useState('active')
+  const [editingTask, setEditingTask] = useState<string | null>('')
   const { data: tasks, refetch } = useQuery({
     queryKey: ['tasks'],
     queryFn: getTasks,
   })
+  async function editTask(id: string, title: string, status: string) {
+    setEditingTask(id)
+    setTask(title)
+    setStatusTask(status)
+    refetch()
+    queryClient.invalidateQueries({ queryKey: ['quantity-total'] })
+    queryClient.invalidateQueries({ queryKey: ['quantity-active'] })
+    queryClient.invalidateQueries({ queryKey: ['quantity-finished'] })
+  }
 
   async function getTasks() {
     const { data } = await axios.get<TasksProps[]>(
       'http://localhost:3000/tasks'
     )
-    console.log(data) // eslint-disable-line no-console, no-undef, no-un
+
     return data.sort(
       (a, b) =>
         new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
@@ -23,12 +55,26 @@ export function Dashboard() {
   }
 
   async function handleAddTask() {
-    await axios.post('http://localhost:3000/tasks', {
-      title: task,
-      status: 'active',
-      createdAt: new Date(),
-    })
-    await getTasks()
+    if (editingTask) {
+      await axios.put(`http://localhost:3000/tasks/${editingTask}`, {
+        title: task,
+        status: statusTask,
+        createdAt: new Date(),
+      })
+      setEditingTask(null)
+    } else {
+      await axios.post('http://localhost:3000/tasks', {
+        title: task,
+        status: statusTask,
+        createdAt: new Date(),
+      })
+      await getTasks()
+    }
+    setTask('')
+    refetch()
+    queryClient.invalidateQueries({ queryKey: ['quantity-total'] })
+    queryClient.invalidateQueries({ queryKey: ['quantity-active'] })
+    queryClient.invalidateQueries({ queryKey: ['quantity-finished'] })
   }
 
   const { mutate, isPending } = useMutation({
@@ -54,6 +100,13 @@ export function Dashboard() {
                hover:border-sky-700 hover:boder-3 outline-none focus:border-sky-700  
                p-2 w-full flex-1 '
             />
+            <select
+              value={statusTask}
+              onChange={(e) => setStatusTask(e.target.value)}
+            >
+              <option value='active'>Ativo</option>
+              <option value='finished'>Concluido</option>
+            </select>
             <button
               onClick={() => mutate()}
               disabled={isPending}
@@ -87,6 +140,8 @@ export function Dashboard() {
                   title={task.title}
                   status={task.status}
                   createdAt={task.createdAt}
+                  refetch={refetch}
+                  editTask={editTask}
                 />
               )
             })}
