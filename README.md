@@ -1,73 +1,60 @@
-# React + TypeScript + Vite
+# ✅ To-Do List
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicação web desenvolvida com **React + Vite + TailwindCSS** para gerenciamento de tarefas.  
+Permite adicionar, editar, concluir e excluir tarefas com uma interface moderna e intuitiva.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Tecnologias utilizadas
+- **React** — criação de componentes e controle de estado
+- **Vite** — build rápido e leve para desenvolvimento moderno
+- **TailwindCSS** — estilização responsiva e eficiente
+- **React Query** — gerenciamento de estado assíncrono e cache de dados
+- **Axios** — consumo de API REST
+- **JSON-SERVER** — persistência de dados no navegador
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🧩 Funcionalidades
+- ➕ Adicionar novas tarefas
+- ✏️ Editar tarefas existentes
+- ✅ Marcar tarefas como concluídas
+- ❌ Excluir tarefas
+- 🔄 Atualização automática do estado via **React Query** (sem precisar recarregar a página) 
+- 💾 Salvar automaticamente as tarefas no navegador
+- 📱 Layout responsivo (desktop e mobile)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 📸 Demonstração
+<img width="1920" height="1032" alt="image" src="https://github.com/user-attachments/assets/7a5253e4-209c-4ecc-af9d-b824b9747688" />
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🧠 Aprendizados
+- Integração de **React Query** para controle de estado assíncrono  
+- Implementação de **mutations** para criar, editar e excluir tarefas  
+- Organização de pastas seguindo padrões do React (components, services, hooks)  
+- Estilização com **TailwindCSS** e design responsivo  
+- Uso de **Axios** e **API REST** para persistência real dos dados  
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🛠️ Como executar o projeto
+```bash
+# Clone este repositório
+git clone https://github.com/seuusuario/todo-list
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+# Acesse a pasta
+cd todo-list
+
+# Instale as dependências
+npm install
+
+# Execute o projeto
+npm run dev
+
+Executar o JSON-SERVER
+# cd mock
+npm run json-server
